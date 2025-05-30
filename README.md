@@ -2,6 +2,8 @@
 
 simple web based and markdown to html editor and converter
 
+can be viewed on the web [here](https://actuallykron.com/markdown-to-html/)
+
 ## What it does
 *   Type markdown on the left
 *   See HTML preview on the right (rendered or raw code)
