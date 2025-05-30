@@ -1,0 +1,356 @@
+/* === IMPORTS & ROOT VARIABLES === */
+@import url('https://fonts.cdnfonts.com/css/jetbrains-mono-2');
+
+:root {
+  /* Typography & Base */
+  --font-family: "JetBrains Mono", monospace;
+  --font-size: 16px;
+  --line-height: 1.20rem;
+  --font-weight-normal: 500;
+  --font-weight-medium: 600;
+  --font-weight-bold: 800;
+  
+  /* Colors */
+  --text-color: #000;
+  --text-color-alt: #666;
+  --background-color: #fff;
+  --background-color-alt: #eee;
+
+  /* Borders */
+  --border-thickness: 2px;
+
+  /* Root Font Application */
+  font-family: var(--font-family);
+  font-optical-sizing: auto;
+  font-weight: var(--font-weight-normal);
+  font-style: normal;
+  font-variant-numeric: tabular-nums lining-nums;
+  font-size: var(--font-size);
+}
+
+/* === DARK MODE VARIABLES === */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text-color: #fff;
+    --text-color-alt: #aaa;
+    --background-color: #000;
+    --background-color-alt: #111;
+  }
+}
+
+/* === GLOBAL & BASE STYLES === */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: var(--background-color);
+  color: var(--text-color);
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  font-family: var(--font-family);
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+/* === PAGE HEADER === */
+.page-header {
+  width: 100%; /* Ensure header takes full width for text-align */
+  padding: var(--line-height) 0;
+  margin-bottom: var(--line-height);
+  text-align: center;
+}
+
+.page-title {
+  margin: 0 0 calc(var(--line-height) / 2) 0;
+  font-size: 2.5rem; /* Larger than other h1 for emphasis */
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  color: var(--text-color);
+}
+
+.page-subtitle {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: var(--font-weight-normal);
+  color: var(--text-color-alt);
+}
+
+.page-subtitle a {
+  text-decoration: underline;
+  color: var(--text-color-alt);
+}
+
+.page-subtitle a:hover {
+  color: var(--text-color);
+}
+
+/* === ACTION BUTTONS CONTAINER === */
+#action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1ch;
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto var(--line-height) auto;
+  padding: var(--line-height) 0;
+}
+
+#action-buttons input[type="file"] {
+    display: none;
+}
+
+/* === LAYOUT CONTAINERS === */
+.container {
+  display: flex;
+  flex-grow: 1;
+  gap: 20px;
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: var(--line-height) 2ch;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 300px; /* Ensures panels don't collapse too much */
+  padding: 1ch;
+  border: var(--border-thickness) solid var(--text-color-alt);
+  border-radius: 0;
+  background-color: var(--background-color-alt);
+  box-shadow: none;
+}
+
+/* Specific Panel IDs - already simple, largely for flex control if needed */
+/* #left-panel {} */
+/* #right-panel {} */
+
+/* === TOOLBAR === */
+#toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5ch;
+  margin-bottom: 1ch;
+}
+
+.toolbar-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5ch;
+}
+
+/* === BUTTONS (TOOLBAR & ACTION) === */
+#toolbar button,
+#action-buttons button,
+#action-buttons label {
+  padding: calc(var(--line-height) / 3) calc(1ch - var(--border-thickness) / 2);
+  border: var(--border-thickness) solid var(--text-color-alt);
+  border-radius: 0;
+  font-family: var(--font-family);
+  font-size: 0.9rem;
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  color: var(--text-color);
+  background-color: var(--background-color-alt);
+  cursor: pointer;
+}
+
+#toolbar button:hover,
+#action-buttons button:hover,
+#action-buttons label:hover {
+  color: var(--background-color-alt);
+  background-color: var(--text-color-alt);
+}
+
+#toolbar button:focus,
+#action-buttons button:focus,
+#action-buttons label:focus {
+  outline: var(--border-thickness) solid var(--text-color);
+  outline-offset: var(--border-thickness);
+}
+
+/* === MARKDOWN INPUT AREA === */
+#md-input {
+  width: 100%;
+  height: calc(100vh - 250px);
+  min-height: 200px;
+  padding: 1ch;
+  margin:0; /* Explicitly remove potential default margins */
+  border: var(--border-thickness) solid var(--text-color-alt);
+  border-radius: 0;
+  box-sizing: border-box;
+  font-family: var(--font-family);
+  font-size: 1rem;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  resize: vertical;
+}
+
+#md-input::placeholder {
+  color: var(--text-color-alt);
+}
+
+/* === PREVIEW TABS === */
+#tab-buttons {
+  display: flex;
+  margin-bottom: 1ch;
+  border-bottom: var(--border-thickness) solid var(--text-color-alt);
+}
+
+#tab-buttons button {
+  padding: 0.5ch 1ch;
+  margin-right: 0.5ch;
+  border: none;
+  border-bottom: calc(var(--border-thickness) * 2) solid transparent;
+  font-family: var(--font-family);
+  font-size: 1rem;
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  color: var(--text-color-alt);
+  background-color: transparent;
+  cursor: pointer;
+}
+
+#tab-buttons button.active {
+  border-bottom-color: var(--text-color);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-color);
+}
+
+/* === PREVIEW CONTENT AREA === */
+#preview-content {
+  flex-grow: 1;
+  height: calc(100vh - 250px);
+  min-height: 200px; 
+  padding: 1ch;
+  border: var(--border-thickness) solid var(--text-color-alt);
+  border-radius: 0;
+  background-color: var(--background-color);
+  overflow: auto;
+}
+
+/* Rendered HTML Preview Styles */
+#rendered-html-view {
+  font-family: var(--font-family);
+  color: var(--text-color);
+  word-wrap: break-word;
+}
+
+#rendered-html-view h1,
+#rendered-html-view h2,
+#rendered-html-view h3,
+#rendered-html-view h4 {
+  margin: calc(var(--line-height) * 1.5) 0 var(--line-height);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height);
+  color: var(--text-color);
+}
+#rendered-html-view h1 { font-size: 1.8rem; text-transform: uppercase; }
+#rendered-html-view h2 { font-size: 1.4rem; text-transform: uppercase; }
+#rendered-html-view h3 { font-size: 1.2rem; text-transform: uppercase; }
+#rendered-html-view h4 { font-size: 1rem; text-transform: uppercase; }
+
+#rendered-html-view p { 
+  margin-top: 0; 
+  margin-bottom: var(--line-height); 
+  line-height: var(--line-height); 
+  color: var(--text-color);
+}
+
+#rendered-html-view ul,
+#rendered-html-view ol { 
+  margin-bottom: var(--line-height); 
+  padding-left: 2ch; 
+  color: var(--text-color);
+}
+
+#rendered-html-view blockquote { 
+  margin-left: 0; 
+  margin-bottom: var(--line-height);
+  padding-left: 1ch; 
+  border-left: calc(var(--border-thickness) * 2) solid var(--text-color-alt); 
+  font-style: italic; 
+  color: var(--text-color-alt);
+}
+
+#rendered-html-view pre {
+  margin: var(--line-height) 0; /* Added consistent margin like other block elements */
+  padding: 1ch;
+  border: var(--border-thickness) solid var(--text-color-alt);
+  border-radius: 0;
+  color: var(--text-color);
+  background-color: var(--background-color-alt);
+  overflow-x: auto;
+}
+
+#rendered-html-view code {
+  font-family: var(--font-family);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-color);
+}
+
+#rendered-html-view code:not(pre code) {
+  padding: 0.2ch 0.4ch;
+  border-radius: 0;
+  background-color: var(--background-color-alt);
+}
+
+#rendered-html-view a {
+  text-decoration: underline;
+  text-decoration-thickness: var(--border-thickness);
+  color: var(--text-color);
+}
+
+/* Raw HTML Preview Styles */
+#raw-html-view {
+  font-family: var(--font-family);
+  font-size: 0.9rem;
+  color: var(--text-color-alt);
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* === UTILITY CLASSES === */
+.hidden {
+  display: none !important;
+}
+
+/* === RESPONSIVE ADJUSTMENTS === */
+@media screen and (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    padding: var(--line-height) 1ch;
+  }
+
+  #md-input,
+  #preview-content {
+    height: 30vh;
+    min-height: 150px;
+  }
+
+  #action-buttons {
+    padding: var(--line-height) 0;
+  }
+
+  /* Example: Optionally reduce root font size on smaller screens 
+  :root {
+    font-size: 14px;
+  }
+  */
+}
