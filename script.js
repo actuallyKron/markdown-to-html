@@ -12,6 +12,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // Blockquotes (must be before paragraphs)
         html = html.replace(/^> (.*$)/gm, '<blockquote>$1</blockquote>');
         
+        // Web Videos @[web-video](VIDEO_ID)
+        html = html.replace(/@\[web-video\]\(([^)]+)\)/g, '<div class="video-container"><iframe src="https://www.youtube.com/embed/$1" frameborder="0" allowfullscreen></iframe></div>');
+
+        // Local Videos @[local-video](URL)
+        html = html.replace(/@\[local-video\]\(([^)]+)\)/g, '<video controls src="$1" style="width: 100%"></video>');
+
         // Headers
         html = html.replace(/^## (.*$)/gm, '<h2>$1</h2>');
         html = html.replace(/^# (.*$)/gm, '<h1>$1</h1>');
@@ -48,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
         html = html.replace(/\+\+(.*?)\+\+/g, '<u>$1</u>');
         
         // Links
-        html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+        html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
         
         // Paragraphs (any line not otherwise processed)
         // This is tricky with a simple regex parser. We'll wrap remaining lines.
@@ -162,6 +168,46 @@ document.addEventListener('DOMContentLoaded', () => {
             applyFormat('[', '](' + url + ')', false, 'link text');
         }
     });
+
+    document.getElementById('btn-video').addEventListener('click', () => {
+        const url = prompt('Enter Web Video URL:');
+        if (url) {
+            const videoId = getWebVideoId(url);
+            if (videoId) {
+                applyFormat(`@[web-video](${videoId})`, '', true);
+            } else {
+                alert('Could not extract video ID. Please use a valid video URL.');
+            }
+        }
+    });
+
+    const localVideoInput = document.getElementById('local-video-input');
+    document.getElementById('btn-local-video').addEventListener('click', () => {
+        localVideoInput.click();
+    });
+
+    localVideoInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const url = URL.createObjectURL(file);
+            applyFormat(`@[local-video](${url})`, '', true);
+        }
+        // Reset file input to allow loading the same file again
+        event.target.value = null;
+    });
+
+    function getWebVideoId(url) {
+        let ID = '';
+        url = url.replace(/(>|<)/gi,'').split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
+        if (url[2] !== undefined) {
+            ID = url[2].split(/[^0-9a-z_\-]/i);
+            ID = ID[0];
+        }
+        else {
+            ID = url;
+        }
+        return ID;
+    }
 
     function applyFormatOnLine(prefix, suffix = '', placeholder = 'text') {
         const { value, selectionStart, selectionEnd } = mdInput;
